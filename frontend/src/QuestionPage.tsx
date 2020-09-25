@@ -6,6 +6,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Page } from './Page';
 import { QuestionData, getQuestion } from './QuestionData';
 import { AnswerList } from './AnswerList';
+import { Form, required, minLength } from './Form';
+import { Field } from './Field';
 
 interface RouteParams {
   questionId: string;
@@ -69,6 +71,23 @@ export const QuestionPage: FC<RouteComponentProps<RouteParams>> = ({
               } on ${question.created.toLocaleDateString()} ${question.created.toLocaleTimeString()}`}
             </div>
             <AnswerList data={question.answers} />
+            <div
+              css={css`
+                margin-top: 20px;
+              `}
+            >
+              <Form
+                submitCaption="Submit Your Answer"
+                validationRules={{
+                  content: [
+                    { validator: required },
+                    { validator: minLength, arg: 50 },
+                  ],
+                }}
+              >
+                <Field name="content" label="Your Answer" type="TextArea" />
+              </Form>
+            </div>
           </Fragment>
         )}
       </div>
